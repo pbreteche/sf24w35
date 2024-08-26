@@ -3,7 +3,7 @@
 {% block body %}
     <ul>
     {% for issue in issues %}
-        <li>{{ issue.title }}</li>
+        <li><a href="{{ path('app_default_show', {id: issue.id}) }}">{{ issue.title }}</a></li>
     {% endfor %}
     </ul>
 {% endblock %}

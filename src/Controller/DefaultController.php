@@ -46,4 +46,13 @@ class DefaultController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}')]
+    public function show(
+        Issue $issue
+    ): Response {
+        return $this->render('default/show.html.twig', [
+            'issue' => $issue,
+        ]);
+    }
 }

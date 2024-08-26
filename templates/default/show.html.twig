@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<article>
+    <h1>{{ issue.title }}</h1>
+    <p>Créé le {{ issue.createdAt | format_date }}</p>
+    <div>{{ issue.description | nl2br }}</div>
+</article>
+{% endblock %}
+
