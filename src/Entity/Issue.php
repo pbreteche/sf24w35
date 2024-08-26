@@ -28,6 +28,9 @@ class Issue
     #[ORM\Column(enumType: IssueState::class)]
     private ?IssueState $state = IssueState::open;
 
+    #[ORM\ManyToOne]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -75,6 +78,18 @@ class Issue
     public function setState(IssueState $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

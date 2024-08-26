@@ -33,6 +33,7 @@ class DefaultController extends AbstractController
         EntityManagerInterface $manager,
     ): Response {
         $issue = new Issue();
+        $issue->setCreatedBy($this->getUser());
         $form = $this->createForm(IssueType::class, $issue);
         $form->handleRequest($request);
 
@@ -41,7 +42,7 @@ class DefaultController extends AbstractController
             $manager->flush();
             $this->addFlash('success', 'L\'issue a été enregistrée.');
 
-            return $this->redirectToRoute('app_default_index');
+            return $this->redirectToRoute('app_default_show', ['id' => $issue->getId()]);
         }
 
         return $this->render('default/new.html.twig', [
