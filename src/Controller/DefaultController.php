@@ -8,6 +8,7 @@ use App\Form\IssueType;
 use App\Repository\IssueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -50,7 +51,32 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    #[IsGranted(
+        attribute: new Expression('user === subject.getCreatedBy()'),
+        subject: 'issue',
+    )]
+    public function edit(
+        Issue $issue,
+        Request $request,
+        EntityManagerInterface $manager,
+    ): Response {
+        $form = $this->createForm(IssueType::class, $issue);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->flush();
+            $this->addFlash('success', 'L\'issue a été mis à jour.');
+
+            return $this->redirectToRoute('app_default_show', ['id' => $issue->getId()]);
+        }
+
+        return $this->render('default/edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', requirements: ['id' => '\d+'], methods: 'GET')]
     public function show(
         Issue $issue
     ): Response {
