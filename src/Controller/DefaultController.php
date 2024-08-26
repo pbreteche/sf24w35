@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DefaultController extends AbstractController
 {
@@ -26,6 +27,7 @@ class DefaultController extends AbstractController
     }
 
     #[Route('/new')]
+    #[IsGranted('ROLE_USER')]
     public function new(
         Request $request,
         EntityManagerInterface $manager,
@@ -47,7 +49,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}')]
+    #[Route('/{id}', requirements: ['id' => '\d+'])]
     public function show(
         Issue $issue
     ): Response {

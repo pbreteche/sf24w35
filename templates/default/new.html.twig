@@ -5,4 +5,9 @@
     {{ form_widget(form) }}
     <button class="btn btn-primary">Valider</button>
     {{ form_end(form) }}
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <p>Message réservé aux admins</p>
+    {% endif %}
+
 {% endblock %}
