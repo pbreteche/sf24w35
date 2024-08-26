@@ -6,6 +6,7 @@ use App\Repository\IssueRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use \App\Entity\Enum\IssueState;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: IssueRepository::class)]
 class Issue
