@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Enum\IssueState;
 use App\Entity\Issue;
+use App\Entity\Post;
 use App\Form\IssueType;
+use App\Form\PostType;
 use App\Repository\IssueRepository;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -76,12 +79,36 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', requirements: ['id' => '\d+'], methods: 'GET')]
+    #[Route('/{id}', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function show(
-        Issue $issue
+        Issue $issue,
+        Request $request,
+        EntityManagerInterface $manager,
+        PostRepository $postRepository,
     ): Response {
+        $post = new Post();
+        $post
+            ->setCreatedBy($this->getUser())
+            ->setIssue($issue)
+        ;
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($post);
+            $manager->flush();
+
+            $this->addFlash('success', 'Message enregistré');
+
+            return $this->redirectToRoute('app_default_show', ['id' => $issue->getId()]);
+        }
+
+        $posts = $postRepository->findBy(['issue' => $issue], ['createdAt' => 'ASC']);
+
         return $this->render('default/show.html.twig', [
             'issue' => $issue,
+            'form' => $form,
+            'posts' => $posts,
         ]);
     }
 }
