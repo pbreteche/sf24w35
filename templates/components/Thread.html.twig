@@ -1,0 +1,7 @@
+<div{{ attributes }}>
+    {% for post in this.posts %}
+        <div class="border border-light p-3 rounded">
+            {{ post.content | nl2br }}
+        </div>
+    {% endfor %}
+</div>

@@ -84,7 +84,6 @@ class DefaultController extends AbstractController
         Issue $issue,
         Request $request,
         EntityManagerInterface $manager,
-        PostRepository $postRepository,
     ): Response {
         $post = new Post();
         $post
@@ -103,12 +102,9 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('app_default_show', ['id' => $issue->getId()]);
         }
 
-        $posts = $postRepository->findBy(['issue' => $issue], ['createdAt' => 'ASC']);
-
         return $this->render('default/show.html.twig', [
             'issue' => $issue,
             'form' => $form,
-            'posts' => $posts,
         ]);
     }
 }

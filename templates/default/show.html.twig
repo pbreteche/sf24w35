@@ -25,11 +25,7 @@
         {% if issue.createdBy is not null %} par {{ issue.createdBy.email }} {% endif %}
     </p>
     <div>{{ issue.description | nl2br }}</div>
-    {% for post in posts %}
-        <div class="border border-light p-3 rounded">
-            {{ post.content | nl2br }}
-        </div>
-    {% endfor %}
+    <twig:Thread :issue="issue" />
     {% if is_granted('IS_AUTHENTICATED') %}
         {{ form_start(form) }}
         <div>
