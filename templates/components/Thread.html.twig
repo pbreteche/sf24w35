@@ -1,7 +1,27 @@
 <div{{ attributes }}>
     {% for post in this.posts %}
         <div class="border border-light p-3 rounded">
-            {{ post.content | nl2br }}
+            <p class="fs-6">De {{ post.createdBy.email }}, le {{ post.createdAt | format_date }}</p>
+            <div>
+                {{ post.content | nl2br }}
+            </div>
+
+            {% set disabled = (app.user is same as post.createdBy) %}
+
+            <form action="{{ path('app_vote_vote', {id: post.id}) }}" method="post">
+                <button class="btn btn-outline-success btn-sm" name="choice" value="up"
+                        {% if disabled %}disabled{% endif %}
+                >
+                    <i class="bi bi-arrow-up-circle"></i>
+                </button>
+                <output class="text-success">{{ this.countVote(post) }}</output>
+                <output class="text-danger">{{ this.countVote(post, true) }}</output>
+                <button class="btn btn-outline-danger btn-sm" name="choice" value="down"
+                        {% if disabled %}disabled{% endif %}
+                >
+                    <i class="bi bi-arrow-down-circle"></i>
+                </button>
+            </form>
         </div>
     {% endfor %}
 </div>
