@@ -1,5 +1,23 @@
 {% extends 'base.html.twig' %}
 
+{# Dans la page on retrouve
+    1. l'affichage de l'issue de la page
+    2. l'affichage du fil de message associé à l'issue
+    3. le formulaire de message quand l'utilisateur est connecté
+
+    Outils à disposition pour assembler des templates Twig :
+    - extends, permet de définir un type de page "générique",
+      et de redéfinir des blocs dans les pages "spécifiques"
+    - la fonction Twig include(), permet d'insérer un template de notre choix.
+      Les variables sont récupérées depuis le contexte appelant.
+    - la fonction render(), plus avancé que le simple include. Permet d'invoquer une méthode de contrôleur.
+      Le controleur bénéficie de l'injection de dépendance
+      (par exemple récupérer un repository pour charger une nouvelle donnée depuis la base).
+    - plus récemment, depuis l'initiative Symfony UX, on a la possibilité d'utiliser un style orienté composant.
+      Avec les TwigComponent (géré au niveau uniquement du moteur Twig)
+      et les LiveComponent (Twig Component + synchro des données via HTTP).
+#}
+
 {% block body %}
 <article>
     <h1>{{ issue.title }}</h1>
