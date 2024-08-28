@@ -60,9 +60,9 @@ class CreateUserCommand extends Command
 
         $user = (new User())
             ->setEmail($email)
-            ->setPassword($this->hasher->hashPassword($password))
             ->setRoles($roles)
             ->setLocale($locale);
+        $user->setPassword($this->hasher->hashPassword($user, $password));
 
         $violations = $this->validator->validate($user);
         if (0 < $violations->count()) {
