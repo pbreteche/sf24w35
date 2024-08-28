@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -24,7 +24,7 @@ class CreateUserCommand extends Command
         private readonly ValidatorInterface $validator,
         private readonly EntityManagerInterface $manager,
         private readonly UserQuestionFactory $factory,
-        private readonly PasswordHasherInterface $hasher,
+        private readonly UserPasswordHasherInterface $hasher,
     )
     {
         parent::__construct();
