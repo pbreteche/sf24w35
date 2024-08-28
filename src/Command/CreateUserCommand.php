@@ -9,15 +9,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
-use Symfony\Component\Validator\Constraints\PasswordStrength;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(
@@ -30,6 +24,7 @@ class CreateUserCommand extends Command
         private readonly ValidatorInterface $validator,
         private readonly EntityManagerInterface $manager,
         private readonly UserQuestionFactory $factory,
+        private readonly PasswordHasherInterface $hasher,
     )
     {
         parent::__construct();
@@ -65,7 +60,7 @@ class CreateUserCommand extends Command
 
         $user = (new User())
             ->setEmail($email)
-            ->setPassword($password)
+            ->setPassword($this->hasher->hash($password))
             ->setRoles($roles)
             ->setLocale($locale);
 
