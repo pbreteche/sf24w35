@@ -6,7 +6,7 @@
                 {{ post.content | nl2br }}
             </div>
 
-            {% set disabled = (app.user is same as post.createdBy) %}
+            {% set disabled = not this.canVote(post) %}
 
             <form action="{{ path('app_vote_vote', {id: post.id}) }}" method="post">
                 <button class="btn btn-outline-success btn-sm" name="choice" value="up"

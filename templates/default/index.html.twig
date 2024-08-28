@@ -4,6 +4,8 @@
     <ul>
     {% for issue in issues %}
         <li><a href="{{ path('app_default_show', {id: issue.id}) }}">{{ issue.title }}</a></li>
+        {% else %}
+        <li>Aucune demande en cours</li>
     {% endfor %}
     </ul>
 {% endblock %}
