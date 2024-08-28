@@ -29,6 +29,7 @@ class CreateUserCommand extends Command
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly EntityManagerInterface $manager,
+        private readonly UserQuestionFactory $factory,
     )
     {
         parent::__construct();
@@ -47,72 +48,31 @@ class CreateUserCommand extends Command
         $emailArg = $input->getArgument('email');
 
         if ($emailArg) {
-            $violationList = $this->validator->validate($emailArg, [
-                new Email(),
-            ]);
-
+            $violationList = $this->validator->validate($emailArg, new Email());
             if (0 < $violationList->count()) {
-                foreach ($violationList as $violation) {
-                    $io->error($violation->getMessage());
-                }
+                $io->error($violationList);
             } else {
                 $email = $emailArg;
             }
         }
 
         if (!isset($email)) {
-            $emailQuestion = new Question('User email');
-            $emailValidation = Validation::createCallable(
-                $this->validator,
-                new NotBlank(),
-                new Email(),
-            );
-            $emailQuestion->setValidator($emailValidation);
-            $emailQuestion->setMaxAttempts(10);
-            $email = $io->askQuestion($emailQuestion);
+            $email = $io->askQuestion($this->factory->createEmailQuestion());
         }
-
-        $passwordQuestion = new Question('User password');
-        $passwordQuestion->setHidden(true);
-        $passwordValidation = Validation::createCallable(
-            $this->validator,
-            new NotBlank(),
-            new NotCompromisedPassword(),
-            new PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG),
-        );
-        $passwordQuestion->setValidator($passwordValidation);
-        $passwordQuestion->setMaxAttempts(10);
-        $password = $io->askQuestion($passwordQuestion);
-
-        $roleQuestion = new ChoiceQuestion('User role', ['ROLE_USER', 'ROLE_DEVELOPER', 'ROLE_ADMIN']);
-        $roleQuestion->setMultiselect(true);
-        $roles = $io->askQuestion($roleQuestion);
-
-        $localeQuestion = new Question('Locale');
-        $localeValidation = Validation::createCallable(
-            $this->validator,
-            new NotBlank(),
-            new Regex(pattern: '/^[a-z]{2}$/', message: 'Locale should be 2 lowercase letters')
-        );
-        $localeQuestion->setValidator($localeValidation);
-        $locale = $io->askQuestion($localeQuestion);
-
+        $password = $io->askQuestion($this->factory->createPasswordQuestion());
+        $roles = $io->askQuestion($this->factory->createRoleQuestion());
+        $locale = $io->askQuestion($this->factory->createLocaleQuestion());
 
         $user = (new User())
             ->setEmail($email)
             ->setPassword($password)
             ->setRoles($roles)
-            ->setLocale($locale)
-        ;
+            ->setLocale($locale);
 
         $violations = $this->validator->validate($user);
-        foreach ($violations as $violation) {
-            $io->error(sprintf('The field %s is invalid. Message: %s.',
-                $violation->getPropertyPath(), $violation->getMessage()
-            ));
-        }
-
-        if (0 === $violations->count()) {
+        if (0 < $violations->count()) {
+            $io->error($violations);
+        } else {
             $this->manager->persist($user);
             $this->manager->flush();
             $io->success(sprintf('User %s has been inserted', $user->getEmail()));
