@@ -8,7 +8,6 @@ use App\Entity\Post;
 use App\Form\IssueType;
 use App\Form\PostType;
 use App\Repository\IssueRepository;
-use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
