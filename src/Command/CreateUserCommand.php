@@ -60,7 +60,7 @@ class CreateUserCommand extends Command
 
         $user = (new User())
             ->setEmail($email)
-            ->setPassword($this->hasher->hash($password))
+            ->setPassword($this->hasher->hashPassword($password))
             ->setRoles($roles)
             ->setLocale($locale);
 
