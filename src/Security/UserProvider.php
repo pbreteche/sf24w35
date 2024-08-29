@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -22,12 +23,18 @@ readonly class UserProvider implements UserProviderInterface, PasswordUpgraderIn
 
     public function supportsClass(string $class): bool
     {
-        return User::class;
+        return $class === User::class;
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return $this->repository->findOneBy(['email' => $identifier, 'isBanned' => false]);
+        $user = $this->repository->findOneBy(['email' => $identifier, 'isBanned' => false]);
+
+        if ($user) {
+            return $user;
+        }
+
+        throw new UserNotFoundException();
     }
 
     public function upgradePassword(
