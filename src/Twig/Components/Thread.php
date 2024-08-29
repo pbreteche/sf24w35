@@ -40,6 +40,10 @@ final class Thread
 
     public function canVote(Post $post): bool
     {
+        if (!$this->security->isGranted('IS_VERIFIED')) {
+            return false;
+        }
+
         $user = $this->security->getUser();
         // Users cannot vote for their own message
         if ($post->getCreatedBy() === $user) {

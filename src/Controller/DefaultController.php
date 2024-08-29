@@ -30,7 +30,7 @@ class DefaultController extends AbstractController
     }
 
     #[Route('/new')]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('IS_VERIFIED')]
     public function new(
         Request $request,
         EntityManagerInterface $manager,
@@ -54,6 +54,7 @@ class DefaultController extends AbstractController
     }
 
     #[Route('/{id}/edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    #[IsGranted('IS_VERIFIED')]
     #[IsGranted(
         attribute: new Expression('user === subject.getCreatedBy()'),
         subject: 'issue',
