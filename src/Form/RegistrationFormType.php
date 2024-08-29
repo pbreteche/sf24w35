@@ -30,9 +30,9 @@ class RegistrationFormType extends AbstractType
                 ],
                 'second_options' => ['label' => 'Repeat Password'],
                 'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\NotCompromisedPassword(),
-                    new Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_WEAK),
+                    new Assert\NotBlank(groups: ['registration']),
+                    new Assert\NotCompromisedPassword(groups: ['registration']),
+                    new Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_WEAK, groups: ['registration']),
                 ],
             ])
         ;
@@ -42,7 +42,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'validation_groups' => 'register',
+            'validation_groups' => 'registration',
         ]);
     }
 }
