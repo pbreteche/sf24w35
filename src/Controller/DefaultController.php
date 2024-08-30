@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Enum\IssueState;
 use App\Entity\Issue;
 use App\Entity\Post;
 use App\Form\IssueType;

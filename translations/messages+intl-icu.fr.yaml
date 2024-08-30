@@ -16,4 +16,5 @@ global:
 
 issue:
   authoring:
-    created_by: par %email%
+    created_at: Créé le {created_at, date} - {created_at, time, short}
+    created_by: par {email}

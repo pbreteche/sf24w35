@@ -23,7 +23,7 @@ readonly class UserProvider implements UserProviderInterface, PasswordUpgraderIn
 
     public function supportsClass(string $class): bool
     {
-        return $class === User::class;
+        return $class === User::class || is_subclass_of($class, User::class) ;
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
