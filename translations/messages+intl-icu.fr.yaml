@@ -18,3 +18,11 @@ issue:
   authoring:
     created_at: Créé le {created_at, date} - {created_at, time, short}
     created_by: par {email}
+post:
+  thread:
+    length: >-
+      {count, plural,
+        =0    {Pas de commentaires.}
+        =1    {Un seul commentaire.}
+        other {Il y a # commentaires !}
+      }

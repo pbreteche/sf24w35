@@ -1,4 +1,5 @@
 <div{{ attributes }}>
+    <p>{{ 'post.thread.length'|trans({count: this.posts|length}) }}</p>
     {% for post in this.posts %}
         <div class="border border-light p-3 rounded">
             <p class="fs-6">De {{ post.createdBy.email }}, le {{ post.createdAt | format_date }}</p>
