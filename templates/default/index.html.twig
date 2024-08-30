@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <form>
+        <div>
+            <label for="search">Recherche</label>
+            <input type="text" name="search" id="search" class="form-control"
+                   value="{{ search }}"
+            >
+        </div>
+        <button class="btn btn-primary">Rechercher</button>
+    </form>
+
     <ul>
     {% for issue in issues %}
         <li><a href="{{ path('app_default_show', {id: issue.id}) }}">{{ issue.title }}</a></li>

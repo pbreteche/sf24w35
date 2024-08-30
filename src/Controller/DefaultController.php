@@ -20,12 +20,15 @@ class DefaultController extends AbstractController
 {
     #[Route('/', methods: 'GET')]
     public function index(
+        Request $request,
         IssueRepository $repository,
     ): Response {
-        $issues = $repository->findBy(['state' => IssueState::open], ['createdAt' => 'DESC'], 20);
+        $search = $request->query->get('search');
+        $issues = $repository->findByTitleLike($search);
 
         return $this->render('default/index.html.twig', [
             'issues' => $issues,
+            'search' => $search,
         ]);
     }
 
