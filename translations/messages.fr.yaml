@@ -13,3 +13,7 @@ global:
     send: Envoyer
   search_form:
     label: Recherche
+
+issue:
+  authoring:
+    created_by: par %email%
