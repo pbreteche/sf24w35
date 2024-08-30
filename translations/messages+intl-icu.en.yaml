@@ -1,0 +1,25 @@
+global:
+  action:
+    search: Search
+    validate: Validate
+    send: Send
+  search_form:
+    label: Search
+
+issue:
+  authoring:
+    created_at: Created at {created_at, date} - {created_at, time, short}
+    created_by: by {email}
+  fields:
+    title:
+      label: Title
+    description:
+      label: Description
+post:
+  thread:
+    length: >-
+      {count, plural,
+        =0    {No posts}
+        =1    {A single post.}
+        other {There are # posts!}
+      }

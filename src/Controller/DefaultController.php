@@ -31,7 +31,10 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/new')]
+    #[Route([
+        'en' => '/new',
+        'fr' => '/nouveau',
+    ])]
     #[IsGranted('IS_VERIFIED')]
     public function new(
         Request $request,
@@ -55,7 +58,10 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    #[Route([
+        'en' => '/{id}/edit',
+        'fr' => '/{id}/éditer',
+    ], requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     #[IsGranted('IS_VERIFIED')]
     #[IsGranted(
         attribute: new Expression('user === subject.getCreatedBy()'),

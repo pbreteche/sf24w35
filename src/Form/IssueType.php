@@ -21,6 +21,7 @@ class IssueType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Issue::class,
+            'label_format' => 'issue.fields.%name%.label'
         ]);
     }
 }

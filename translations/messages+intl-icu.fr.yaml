@@ -18,6 +18,11 @@ issue:
   authoring:
     created_at: Créé le {created_at, date} - {created_at, time, short}
     created_by: par {email}
+  fields:
+    title:
+      label: Titre
+    description:
+      label: Description
 post:
   thread:
     length: >-
