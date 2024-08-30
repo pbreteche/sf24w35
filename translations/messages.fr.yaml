@@ -1,0 +1,15 @@
+No opened issues: Aucune demande en cours
+# + clé = langage naturel, plus facile à lire en cas d'absence de message
+# + clé = message en anglais, un catalogue de moins à produire
+# - si l'anglais évolue, tous les catalogues doivent mettre à jour leurs clés
+issue.empty_index: Aucune demande en cours
+# + on peut déterminer la clé avant d'avoir la formulation en langage naturel
+# + possibilité de structure en arborescence (espace de nommage)
+
+global:
+  action:
+    search: Rechercher
+    validate: Valider
+    send: Envoyer
+  search_form:
+    label: Recherche

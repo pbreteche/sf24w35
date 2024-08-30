@@ -3,19 +3,19 @@
 {% block body %}
     <form>
         <div>
-            <label for="search">Recherche</label>
+            <label for="search">{{ 'global.search_form.label' | trans }}</label>
             <input type="text" name="search" id="search" class="form-control"
                    value="{{ search }}"
             >
         </div>
-        <button class="btn btn-primary">Rechercher</button>
+        <button class="btn btn-primary">{{ 'global.action.search' | trans }}</button>
     </form>
 
     <ul>
     {% for issue in issues %}
         <li><a href="{{ path('app_default_show', {id: issue.id}) }}">{{ issue.title }}</a></li>
         {% else %}
-        <li>Aucune demande en cours</li>
+        <li>{{ 'issue.empty_index' | trans }} {{ 'No opened issues' | trans }}</li>
     {% endfor %}
     </ul>
 {% endblock %}

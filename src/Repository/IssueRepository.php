@@ -34,6 +34,7 @@ class IssueRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
     public function findByTitleLikeBis(?string $search)
     {
         return $this->getEntityManager()->createQuery(

@@ -32,7 +32,7 @@
             {{ form_errors(form.content) }}
             {{ form_widget(form.content) }}
         </div>
-        <button class="btn btn-primary"><i class="bi bi-send"></i>Envoyer</button>
+        <button class="btn btn-primary"><i class="bi bi-send"></i>{{ 'global.action.send'|trans }}</button>
         {{ form_end(form) }}
     {% else %}
         <p>Vous devez vous <a href="{{ path('app_login', {_target_path: app.request.requestUri}) }}">authentifier</a> pour réagir à cette demande.</p>
